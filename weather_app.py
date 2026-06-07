@@ -1,36 +1,27 @@
 import requests   # to call the API
 import json       # to read the response
 
-# ── YOUR API KEY ──────────────────────────────────────────────────────────────
-# Get your free key from: https://openweathermap.org/api
-# Sign up → go to "API Keys" tab → copy the key → paste it below
+
 API_KEY = "your_api_key_here"   # <-- replace this
 
-# ── API URL ───────────────────────────────────────────────────────────────────
-# This is the OpenWeatherMap endpoint we will call.
-# We pass the city name, our API key, and units=metric to get Celsius.
+
 BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
 
 
-# ── FUNCTION: Fetch weather data ──────────────────────────────────────────────
 
 def get_weather(city_name):
     """Call the OpenWeatherMap API and return the weather data for a city."""
 
-    # Build the parameters to send with the request
     params = {
-        "q":     city_name,   # city name the user typed
-        "appid": API_KEY,     # our API key
-        "units": "metric",    # metric = Celsius, imperial = Fahrenheit
+        "q":     city_name,  
+        "appid": API_KEY,    
+        "units": "metric",    
     }
 
     try:
-        # Make the GET request to the API
         response = requests.get(BASE_URL, params=params)
 
-        # Check if the request was successful (status code 200 = OK)
         if response.status_code == 200:
-            # Parse the JSON response into a Python dictionary
             data = response.json()
             return data
 
@@ -55,12 +46,10 @@ def get_weather(city_name):
         return None
 
 
-# ── FUNCTION: Display weather results ─────────────────────────────────────────
 
 def display_weather(data, city_name):
     """Print the weather data in a clean, readable format."""
 
-    # Pull out the values we need from the JSON dictionary
     temperature   = data["main"]["temp"]          # current temperature
     feels_like    = data["main"]["feels_like"]    # what it feels like
     humidity      = data["main"]["humidity"]      # humidity percentage
@@ -70,7 +59,6 @@ def display_weather(data, city_name):
     min_temp      = data["main"]["temp_min"]      # min temperature today
     max_temp      = data["main"]["temp_max"]      # max temperature today
 
-    # Print everything neatly
     print("\n" + "=" * 45)
     print(f"  Weather in {city_name.title()}, {country}")
     print("=" * 45)
@@ -82,7 +70,6 @@ def display_weather(data, city_name):
     print("=" * 45)
 
 
-# ── FUNCTION: Filter / compare multiple cities ─────────────────────────────────
 
 def compare_cities(cities):
     """Fetch weather for multiple cities and show them side by side."""
@@ -103,7 +90,6 @@ def compare_cities(cities):
     print("=" * 65)
 
 
-# ── MAIN: Ask user what they want to do ───────────────────────────────────────
 
 def main():
     print("\n" + "=" * 45)
